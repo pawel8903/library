@@ -1,0 +1,15 @@
+body{
+	background-color: #e8eaed;
+}
+.container{
+	width: 700px;
+}
+label{
+	font-size: 30px;
+}
+.btn{
+	width: 150px;	
+}
+#error{
+	margin:20px 0;
+}
