@@ -1,4 +1,4 @@
-package pl.pawel.library.Repository;
+package pl.pawel.library.repository;
 
 import java.util.List;
 
@@ -15,4 +15,5 @@ public interface UserRepository extends Repository<User, Integer>{
 	public List<User> findByEmail(String email);
 
 	public List<User> findByPassword(String password);
+	
 }

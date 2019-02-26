@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.pawel.library.entity.User;
 import pl.pawel.library.service.UserServiceImpl;
 
-@Controller
+@Controller("/user")
 public class UserController {
 
 	@Autowired
@@ -69,7 +69,7 @@ public class UserController {
 				}
 			}
 			
-		return "mainPage";
+		return "redirect:admin/booksList";
 	}
 
 	public String registerFormError(String message,User theUser,Model theModel) {
