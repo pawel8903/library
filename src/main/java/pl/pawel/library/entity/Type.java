@@ -37,7 +37,7 @@ public class Type {
 			})
 	@JoinTable(
 			name="book_type",
-			joinColumns=@JoinColumn(name="FK_Type"),
+			joinColumns=@JoinColumn(name="FK_type"),
 			inverseJoinColumns=@JoinColumn(name="FK_book"))
 	private List<Book> books;
 	

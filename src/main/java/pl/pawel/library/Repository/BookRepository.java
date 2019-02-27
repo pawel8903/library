@@ -11,4 +11,10 @@ public interface BookRepository extends Repository<Book, Integer>{
 	public List<Book> saveAll(Iterable<Book> list);
 
 	public List<Book> findAll();
+
+	public Book findById(int theId);
+
+	public void deleteById(int theId);
+
+	public void save(Book book);
 }

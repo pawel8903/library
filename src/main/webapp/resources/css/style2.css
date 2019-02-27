@@ -35,3 +35,8 @@ body{
     margin: 5px;
     background-color: #f2f2f2;
 }
+.typeList{
+	height: 110px;
+	list-style-type: none;
+	overflow: scroll;
+}

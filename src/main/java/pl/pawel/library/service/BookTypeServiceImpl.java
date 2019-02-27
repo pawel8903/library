@@ -24,7 +24,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 @Service
-public class StorageServiceImpl implements StorageService{
+public class BookTypeServiceImpl implements BookTypeService{
 	
 	@Autowired
 	private BookRepository bookRepository;
@@ -38,6 +38,7 @@ public class StorageServiceImpl implements StorageService{
 	private List<Book> books;
 	private List<Type> types;
 	
+	@Override
 	public void saveDataFile(MultipartFile filename) {
 		readFile(filename);
 		saveBookTypeToDB();
@@ -136,8 +137,8 @@ public class StorageServiceImpl implements StorageService{
 				Cell currentCell = cellIterator.next();
 				cell = currentCell.getStringCellValue();
 		
-				String parts [] =cell.replaceAll("\\s+","").split("-");
-				
+				String parts [] =cell.split("-");
+				parts [0] = parts[0].replaceAll("\\s+","");
 				type = parts[1];
 				shortcut = parts[0];
 			}
@@ -149,6 +150,29 @@ public class StorageServiceImpl implements StorageService{
 	public List<Book> getBooks() {
 		
 		return bookRepository.findAll();
+	}
+
+	@Override
+	public Book getBook(int theId) {
+		
+		return bookRepository.findById(theId);
+	}
+
+	@Override
+	public void deleteBook(int theId) {
+		bookRepository.deleteById(theId);
+		
+	}
+
+	@Override
+	public void saveBook(Book book) {
+		bookRepository.save(book);
+		
+	}
+
+	@Override
+	public List<Type> getTypes() {
+		return typeRepository.findAll();
 	}
 	
 }

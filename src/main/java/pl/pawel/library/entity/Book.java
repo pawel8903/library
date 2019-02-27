@@ -1,5 +1,6 @@
 package pl.pawel.library.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,8 +41,8 @@ public class Book {
 			})
 	@JoinTable(
 			name="book_type",
-			joinColumns=@JoinColumn(name="FK_type"),
-			inverseJoinColumns=@JoinColumn(name="FK_book"))
+			joinColumns=@JoinColumn(name="FK_book"),
+			inverseJoinColumns=@JoinColumn(name="FK_type"))
 	private List<Type> types;
 
 	public Book( String title, String author, String description, int availableNumber) {
@@ -108,6 +109,13 @@ public class Book {
 
 	public void setTypes(List<Type> types) {
 		this.types = types;
+	}
+	
+	public void addType(Type type) {
+		if(types == null) {
+			types = new ArrayList<>();
+		}
+		types.add(type);
 	}
 
 

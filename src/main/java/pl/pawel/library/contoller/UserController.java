@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.pawel.library.entity.User;
 import pl.pawel.library.service.UserServiceImpl;
 
-@Controller("/user")
+@Controller
 public class UserController {
 
 	@Autowired
@@ -22,7 +22,7 @@ public class UserController {
 
 	@RequestMapping("/")
 	public String welcomePage() {
-		return "welcome";
+		return "login";
 	}
 
 	@RequestMapping("/registerForm")
@@ -69,7 +69,7 @@ public class UserController {
 				}
 			}
 			
-		return "redirect:admin/booksList";
+		return "redirect:/book/booksList";
 	}
 
 	public String registerFormError(String message,User theUser,Model theModel) {
