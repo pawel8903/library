@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://prywatnosc.interia.pl/rodo-iframe?origin=https%3A%2F%2Fsport.interia.pl -->
+<html lang="pl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head><body>
+    <script>
+        var state_accepted = '1',
+            state_accept_int = '2',
+            state_accept_other = '3',
+            state_block = '4',
+            state_later = '5';
+
+        // moduł konwertujący zgody na zgody + czas
+        (function () {
+            var data = localStorage.getItem('rodoStatus');
+
+            // nic do  konwersji
+            if (!data) {return}
+            try {
+                data = JSON.parse(data);
+                // gosciu ma starego globala, wiec konwertujemy
+                if (data.global && /^\d$/.test(data.global)) {
+                    for (i in data) {
+                        data[i] = {v: data[i], d: (new Date()).getTime()}
+                    }
+                    localStorage.setItem('rodoStatus', JSON.stringify(data))
+                    console.log('Iframe: aktualizuje zgody o daty');
+                }
+            } catch (e) {
+                console.log('Iframe: Bład aktualizacji zgod o daty.')
+            }
+
+                        var toKibana = function (str, data) {
+                try {
+                    fetch('//l.iplsc.com/logger/', {
+                        method: 'POST',
+                        headers: {
+                            "Content-type": "text/plain"
+                        },
+                        body: JSON.stringify({
+                            level: 'error',
+                            line: 0,
+                            origin: 'iplv3',
+                            referer: location.href,
+                            method: 'console_log',
+                            message: 'rdebug3 iframe ' + str,
+                            data: data
+                        })
+                    });
+                } catch (e) {
+                    console.log('problem z logowaniem');
+                }
+            };
+            var i;
+            data = localStorage.getItem('rodoStatus');
+            try {
+                data = JSON.parse(data);
+                if (!data.global) {
+                    return
+                }
+                for(i in data) {
+                    if (data.hasOwnProperty(i)) {
+                        if (typeof data[i] === 'object' && data[i].v) {
+                            //naprawiamy sg i emke
+                            if (typeof data[i].v === 'string' && data[i].v.length === 27 && /^\{"v"\:"\d","d":\d+}$/.test(data[i].v)) {
+                                try {
+                                    console.log('smiec z sg');
+                                    toKibana('smiec z sg', data[i].v);
+                                    data[i] = JSON.parse(data[i].v);
+                                } catch(e) {
+                                    toKibana('blad parsowania', data[i].v);
+                                }
+                            }
+                            // naprawiam stare wartosci
+                            if (typeof data[i].v === 'string' && /^"\d"$/.test(data[i].v)) {
+                                console.log('smiec z pre start')
+                                toKibana('pre smiec', data[i].v);
+                                data[i] = {
+                                    v: data[i].v.replace(/"/g, ''),
+                                    d: (new Date()).getTime()
+                                }
+                            }
+                            // naprawiam [object Object]
+                            if (data[i].v === '[object Object]') {
+                                data[i].v = '5';
+                            }
+                        } else {
+                            //jesli zgoda nie jest obiektem a intem lub stringiem 1 || '1'
+                            if (typeof data[i] === 'number' || (typeof data[i] === 'string' && /^\d$/.test(data[i]) )) {
+                                data[i] = {
+                                    v: data[i] + '',
+                                    d: (new Date()).getTime()
+                                }
+                            } else {
+                                // jakis smiec wiec na razie nic nie robimy ale do usuniecia
+                                toKibana('smiec na ' + i, data[i]);
+                            }
+                        }
+                    }
+                }
+                localStorage.setItem('rodoStatus', JSON.stringify(data))
+            } catch (e) {
+                console.log('Iframe: Bład validacji zgod')
+            }
+        })();
+
+
+        var originUrl = decodeURIComponent(location.search.split('origin=')[1]),
+            host = originUrl.replace(/https?\:\/\//, ''),
+            /**
+             * @param {string} name - nazwa hosta lub global
+             * @return {null|{v: string, d: string}}
+             */
+            read = function (name) {
+                var data = null
+                try {
+                    data = localStorage.getItem('rodoStatus')
+                    if (!data) {
+                        return null;
+                    }
+                    data = JSON.parse(data);
+                    //jesli bez argumentu to zwracamy wszystko
+                    if (!name) {
+                        return data;
+                    }
+                    if (!data[name]) {
+                        return null;
+                    }
+                    console.log('Iframe: read', name, data[name])
+                    return data[name];
+                } catch (e) {
+                    console.log('Iframe: Problem z odczytem', e, name);
+                    return data;
+                }
+            },
+            /**
+             *
+             * zapisuje {v: number, d: int}
+             * @param {string} name - nazwa hosta lub 'global'
+             * @param {object} value - zgoda z czasem
+             */
+            write = function (name, value) {
+                var data = read() || {},
+                    removeOptouts = arguments[2];
+                try {
+                    if (value) {
+                        // jesli chcemy nadpisac wszystkie optouty globalna zgoda
+                        if (removeOptouts && name === 'global' && value == 1) {
+                            console.log('Iframe: aktualizuje wszystkie optouty')
+                            data = {}
+                        }
+                        //zapisuje obiekt z obecna godzina
+                        data[name] = value;
+                    } else {
+                        delete data[name];
+                    }
+                    localStorage.setItem('rodoStatus', JSON.stringify(data));
+                } catch (e) {
+                    console.log('Iframe: Problem z zapisem', e, name, value);
+                    return null;
+                }
+
+            },
+            // odczytuje lokalny lub globalny
+            agreement = read('global');
+
+        // wysylam do origina przeczytane dane. Zabezpieczam przed wyslaniem do siebie
+        if (top !== window) {
+            //jesli promocyjni to wysylam do parenta
+            var targetWindow = /polska-press.gazetkapromocyjna.pl/i.test(originUrl) ? window.parent : top;
+
+            console.log('Iframe: wysyłam ', agreement, 'do', originUrl)
+            targetWindow.postMessage(JSON.stringify(agreement), originUrl);
+        }
+
+        // nasluchujemy zeby zapisac globalnych danych
+        window.addEventListener("message", function (ev) {
+            var local, global;
+            // zapisujemy jesli dostajemy {command: 'save, value: 1|2|3... itp}
+            try {
+                /**
+                 * @type {{command: 'save', value: {v: string, d: number}}} obj
+                 */
+                var obj =  JSON.parse(ev.data);
+
+                if (obj.command === undefined) {
+                    throw "Brak komendy do zapisu";
+                }
+                if (obj.value === undefined) {
+                    throw "Brak wartosci do zapisania"
+                }
+
+                // Zapisujemy jako global
+                if (obj.command == 'save') {
+                    global = read('global');
+                    console.log('Iframe: aktualizacja zgody', obj.value, global);
+                    write('global', obj.value, true);
+                    console.log('Iframe: zapisane dane', obj.value);
+                }
+            } catch (e) {
+                console.log('Iframe: błąd onMessage: ',e , ev.data)
+            }
+        }, false);
+    </script>
+</body></html>

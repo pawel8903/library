@@ -1,5 +1,6 @@
 package pl.pawel.library.contoller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,11 @@ import pl.pawel.library.entity.User;
 import pl.pawel.library.service.UserServiceImpl;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private UserServiceImpl userServiceImpl;
-
-	@RequestMapping("/")
-	public String welcomePage() {
-		return "login";
-	}
 
 	@RequestMapping("/registerForm")
 	public String registerForm(Model theModel) {
@@ -71,7 +68,17 @@ public class UserController {
 			
 		return "redirect:/book/booksList";
 	}
-
+	@RequestMapping("/usersList")
+	public String usersList(Model theModel) {
+		List<User> usersList = userServiceImpl.getUsers();
+		theModel.addAttribute("users", usersList);
+		return "userList";
+	}
+	@GetMapping("/delete")
+	public String deleteUser(@RequestParam("userId") int userId) {
+		userServiceImpl.deleteUser(userId);
+		return "redirect:/user/usersList";
+	}
 	public String registerFormError(String message,User theUser,Model theModel) {
 		theModel.addAttribute("userForm", theUser);
 		theModel.addAttribute("error",message);

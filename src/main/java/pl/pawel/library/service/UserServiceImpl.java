@@ -67,4 +67,13 @@ public class UserServiceImpl implements UserService {
 		}
 		return true;
 	}
+
+	public List<User> getUsers() {
+		
+		return userRepository.findAll();
+	}
+
+	public void deleteUser(int userId) {
+		userRepository.deleteById(userId);
+	}
 }

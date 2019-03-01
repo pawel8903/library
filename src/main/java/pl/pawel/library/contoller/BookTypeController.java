@@ -26,6 +26,11 @@ public class BookTypeController {
 	@Autowired
 	private BookTypeService bookTypeService;
 	
+	@RequestMapping("readFileForm")
+	public String readFileForm() {
+		return "read-file-form";
+	}
+	
 	@PostMapping("/file")
 	public String serveFile(@RequestParam("filename") MultipartFile filename, RedirectAttributes redirectAttributes) throws IOException {
 		
@@ -64,7 +69,7 @@ public class BookTypeController {
 	}
 	
 	@GetMapping("/delete")
-	public String deleteBook(@RequestParam("bookId") int theId, Model theModel) {
+	public String deleteBook(@RequestParam("bookId") int theId) {
 		bookTypeService.deleteBook(theId);
 		return "redirect:/book/booksList";
 	}

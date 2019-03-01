@@ -15,5 +15,9 @@ public interface UserRepository extends Repository<User, Integer>{
 	public List<User> findByEmail(String email);
 
 	public List<User> findByPassword(String password);
+
+	public List<User> findAll();
+
+	public void deleteById(int userId);
 	
 }

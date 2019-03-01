@@ -15,39 +15,44 @@
 <body>
 
 	<section class="container">
-		<div id="error" class="text-center"><span class="alert alert-info" role="alert">${error}</span></div>
-		<form:form action="registerUser" method="post" class="form-signin"
-			modelAttribute="userForm">
-			<h2 class="h2 mb-3 font-weight-normal text-center">Register</h2>
-			<div class="form-group">
-				<label class="label label-primary">Firstname</label>
-				<form:input path="firstname" class="form-control" />
+		<div>
+			<div id="error" class="text-center">
+				<span class="alert alert-info" role="alert">${error}</span>
 			</div>
-			<div class="form-group">
-				<label class="label label-primary">Lastname</label>
-				<form:input path="lastname" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label class="label label-primary">Username</label>
-				<form:input path="username" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label class="label label-primary">Email</label>
-				<form:input type="email" path="email" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label class="label label-primary">Password</label> <input
-					type="password" name="password" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label class="label label-primary">Config password</label> <input
-					type="password" name="configPassword" class="form-control" />
-			</div>
-			<div class="text-center">
-			<button type="submit" class="btn btn-primary btn-block d-inline">Register</button>
-			<a href="${pageContext.request.contextPath}/loginForm" class="d-inline">Cancel</a>
-			</div>
-		</form:form>
+			<form:form action="registerUser" method="post" class="form-signin"
+				modelAttribute="userForm">
+				<h2 class="h2 mb-3 font-weight-normal text-center">Register</h2>
+				<div class="form-group">
+					<label class="label label-primary">Firstname</label>
+					<form:input path="firstname" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label class="label label-primary">Lastname</label>
+					<form:input path="lastname" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label class="label label-primary">Username</label>
+					<form:input path="username" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label class="label label-primary">Email</label>
+					<form:input type="email" path="email" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label class="label label-primary">Password</label> <input
+						type="password" name="password" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label class="label label-primary">Config password</label> <input
+						type="password" name="configPassword" class="form-control" />
+				</div>
+				<div class="text-center controll-btn">
+					<button type="submit" class="btn btn-primary btn-block d-inline">Register</button>
+					<a href="${pageContext.request.contextPath}/user/loginForm"
+						class="d-inline">Cancel</a>
+				</div>
+			</form:form>
+		</div>
 	</section>
 
 </body>

@@ -8,7 +8,7 @@ body{
     color: #fff !important;
     overflow: hidden;
 }
-.nav-bar > a{
+.nav-bar > a, .nav-bar >.float-right> a{
     text-decoration: none;
     padding: 8px 16px;
     float: left;
@@ -23,7 +23,7 @@ body{
     text-align: center;
     cursor: pointer;
 }
-.nav-bar >a:hover{
+.nav-bar >a:hover, .nav-bar >.float-right> a:hover{
     text-decoration: none;
     background-color: #fff;
     color: #000;
@@ -39,4 +39,13 @@ body{
 	height: 110px;
 	list-style-type: none;
 	overflow: scroll;
+}
+.table-tr{
+	background-color: #bec7d1 !important;
+}
+#add-btn{
+	width: 120px;
+}
+.section-group{
+	margin-top: 20px;
 }

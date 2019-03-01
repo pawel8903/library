@@ -1,15 +1,30 @@
-body{
-	background-color: #e8eaed;
-}
+
 .container{
-	width: 700px;
+	width: 400px;
+	background-color: #e8eaed;
+	margin-top:30px;
+	
 }
 label{
-	font-size: 30px;
+	font-size: 20px;
 }
 .btn{
-	width: 150px;	
+	width: 130px;	
 }
 #error{
-	margin:20px 0;
+	padding-top: 8px;
+}
+.h2{
+	font-size: 20px;
+}
+.alert{
+	display: block;
+	margin:0;
+	padding-top: 10px;
+}
+.alert:empty {
+	display: none;
+}
+.controll-btn{
+	padding-bottom: 8px;
 }

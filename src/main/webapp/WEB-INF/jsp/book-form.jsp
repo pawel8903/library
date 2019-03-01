@@ -17,22 +17,16 @@
 <body>
 	<nav>
 		<div class="nav-bar">
-			<a href="#"><i>fontello</i>Logo</a> <a href="#">Users</a> <a href="#">Books</a>
-			<a href="#">Read File</a> <a href="#">More</a> <a href="#"
-				id="search" class="float-right"><i>fottello</i></a>
-			<div class="section-group row">
-				<form:form method="post" enctype="multipart/form-data"
-					action="file/">
-					<div>
-						<input type="file" name="filename" />
-						<button type="submit" value="upload">Upload</button>
-					</div>
-				</form:form>
+			<a href="${pageContext.request.contextPath}/user/usersList">Users</a>
+			<a href="${pageContext.request.contextPath}/book/booksList">Books</a>
+			<a href="${pageContext.request.contextPath}/book/readFileForm">Read File</a>
+			<div class="float-right">
+				<a href="${pageContext.request.contextPath}/user/loginForm">Login</a>
+				<a href="${pageContext.request.contextPath}/user/registerForm">Register</a>
+				<a href="#" id="search"><i>fottello</i></a>
 			</div>
 		</div>
-		<div>
-			
-		</div>
+		<div></div>
 	</nav>
 	<section class="container">
 		<div id=content>
@@ -70,8 +64,8 @@
 						<td><label></label></td>
 						<td><input type="submit" value="save" /><a
 							href="${pageContext.request.contextPath}/book/booksList"
-							class="d-inline">Register</a></td>
-						
+							class="d-inline">cancel</a></td>
+
 					</tr>
 				</table>
 			</form:form>

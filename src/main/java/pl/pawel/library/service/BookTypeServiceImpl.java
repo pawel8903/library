@@ -10,7 +10,8 @@ import java.util.List;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -148,7 +149,6 @@ public class BookTypeServiceImpl implements BookTypeService{
 
 	@Override
 	public List<Book> getBooks() {
-		
 		return bookRepository.findAll();
 	}
 

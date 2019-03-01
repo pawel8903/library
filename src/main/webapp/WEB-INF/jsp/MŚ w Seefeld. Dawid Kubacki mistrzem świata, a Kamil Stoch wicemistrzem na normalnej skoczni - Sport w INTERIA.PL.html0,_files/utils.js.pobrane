@@ -1,0 +1,1 @@
+var utils=utils||{};utils.friendlyNameChars={"ą":"a","ę":"e","ć":"c","ś":"s","ł":"l","ż":"z","ź":"z","ń":"n","Ę":"E","Ą":"A","Ś":"S","Ł":"L","Ż":"Z","Ź":"Z","Ć":"C","Ń":"N"," ":"-"},utils.makeFriendlyName=function(a){return a.trim().replace(/[^a-zA-Z0-9\-]/g,function(a){return utils.friendlyNameChars[a]||""}).toLowerCase()};

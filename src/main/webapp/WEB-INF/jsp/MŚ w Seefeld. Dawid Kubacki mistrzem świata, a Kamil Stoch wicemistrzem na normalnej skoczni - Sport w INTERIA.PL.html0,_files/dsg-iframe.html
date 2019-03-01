@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://dsg.interia.pl/dsg-iframe -->
+<html lang="pl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+<script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head>
+<body>
+<p>Strona do przesyłania DSG info</p>
+<script>
+    /**
+     * Ładowanie skryptu przesyłającego info o DSG do okna rodzica
+     */
+    (function(window, document) {
+        // <Funkcje pomocnicze>
+        function isDefined (obj) {
+            return typeof (obj) !== 'undefined' && obj !== null;
+        }
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener){
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        }
+        // </Funkcje pomocnicze>
+
+        window.Inpl = window.Inpl || {};
+        if(window.Inpl.hasOwnProperty('dsgIframe')) {
+            throw Error('Istnieje już window.Inpl.dsgIframe!');
+        }
+        var that = window.Inpl.dsgIframe = {
+            cookie: {
+                name: 'DSG_GROUP_ID',
+                path: '/',
+                domain: '.interia.pl',
+                expireTime: new Date().getTime() + 30 * 60 * 1000 // plus 30 minut (domyślnie)
+            },
+            _getCurrentDomain: function () {
+                var hostname = window.location.hostname;
+                var interiaDomainIndex = hostname.indexOf('.interia.pl');
+
+                return interiaDomainIndex !== -1 ? hostname.slice(interiaDomainIndex) : hostname;
+            },
+            isMessageFromInteriaOrigin: function(origin) {
+                return origin.indexOf('.interia.pl') > -1 || origin.indexOf('.pomponik.pl') > -1;
+            },
+            getCookie: function (name) {
+                var value;
+                name += '=';
+
+                if (document.cookie.indexOf(name) !== -1) {
+                    value = document.cookie.split(name).pop().split('; ')[0];
+
+                    if (value.indexOf('$IWAStorageItem$') !== -1) {
+                        value = value.replace('$IWAStorageItem$', '');
+                    }
+                }
+
+                return value;
+            },
+            setCookie: function (cookieName, cookieValue, expireTimeInMs, path, domain, secure) {
+                document.cookie = cookieName + '=' + cookieValue +
+                    ((expireTimeInMs == null) ? '' : ('; expires=' + new Date(expireTimeInMs).toUTCString())) +
+                    ((path == null) ? '' : ('; path=' + path)) +
+                    ((domain == null) ? '' : ('; domain=' + domain)) +
+                    ((secure == true) ? '; secure' : '');
+            },
+            setCookieDomain: function (domain) {
+                if (isDefined(domain)) {
+                    this.cookie.domain = domain;
+                }
+            },
+            sendDsgUserTypeToParentWindow: function(dsgUserType) {
+                var msgObj = {
+                    type: 'dsgUserType',
+                    value: dsgUserType
+                };
+                window.parent.postMessage(JSON.stringify(msgObj), '*');
+            },
+            getSecondsFromStart: function(elapsedTime, startTime) {
+                return (elapsedTime - startTime)/1000;
+            },
+            onParentWindowMessage: function() {
+                bindEvent(window, 'message', function (e) {
+                    var message;
+                    if (!that.isMessageFromInteriaOrigin(e.origin)) {
+                        return;
+                    }
+
+                    if (typeof e.data === 'undefined') {
+                        return;
+                    }
+
+                    message = JSON.parse(e.data);
+
+                    if (message.type !== 'dsgUserType') {
+                        return;
+                    }
+
+                    that.setCookie(that.cookie.name, message.value, that.cookie.expireTime, that.cookie.path, that.cookie.domain);
+                    that.log('UserType_messageFromParentWindow', message.value);
+                    that.log('UserType_messageFromParentWindow_time', that.getSecondsFromStart(Date.now(), message.timeStart));
+                });
+            },
+            init: function() {
+                this.setCookieDomain(this._getCurrentDomain());
+                document.addEventListener("DOMContentLoaded", function(event) {
+                    var userType = that.getCookie(that.cookie.name);
+                    if (isDefined(userType)) {
+                        that.sendDsgUserTypeToParentWindow(Number(userType));
+                    }
+                    that.onParentWindowMessage();
+                });
+            },
+            log: function(key, value) {
+                if (!isDefined(key) || !isDefined(value)) {
+                    return;
+                }
+                console.log(key, value);
+            }
+        };
+        window.Inpl.dsgIframe.init();
+    })(window, document);
+</script>
+
+</body></html>
