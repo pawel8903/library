@@ -1,1 +1,0 @@
-(window.webpackJsonpIWA=window.webpackJsonpIWA||[]).push([[4],{15:function(t,n,a){"use strict";a.r(n),a.d(n,"default",function(){return e});var s=a(1);class e{constructor(t,n){this.tracker=t,this.conf=n,this.customVariables=new s.a}init(){this.start=Date.now()}getUnloadData(){return{timeSpent:Math.round((Date.now()-this.start)/1e3)}}}}}]);
