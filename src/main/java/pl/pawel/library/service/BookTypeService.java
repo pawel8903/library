@@ -10,6 +10,7 @@ import pl.pawel.library.entity.Book;
 import pl.pawel.library.entity.Type;
 
 public interface BookTypeService {
+	
 	public void saveDataFile(MultipartFile filename) throws IOException;
 
 	public List<Book> getBooks();
@@ -21,4 +22,6 @@ public interface BookTypeService {
 	public void saveBook(Book book);
 
 	public List<Type> getTypes();
+	
+	public List<Book> findBySearchTerm(String searchTerm, String searchBy);
 }

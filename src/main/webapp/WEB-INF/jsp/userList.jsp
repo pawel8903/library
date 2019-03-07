@@ -31,7 +31,7 @@
 	<section class="container">
 		<div id=content>
 			<table class="table table-striped">
-				<tr>
+				<tr class="table-tr">
 					<th>Firstname</th>
 					<th>Lastname</th>
 					<th>Username</th>
@@ -39,20 +39,22 @@
 					<th>Password</th>
 					<th></th>
 				</tr>
-				<c:forEach var="tempUser" items="${users}">
-					<c:url var="deleteLink" value="/user/delete">
-						<c:param name="userId" value="${tempUser.id}"></c:param>
-					</c:url>
-					<tr>
-						<td>${tempUser.firstname}</td>
-						<td>${tempUser.lastname}</td>
-						<td>${tempUser.username}</td>
-						<td>${tempUser.email}</td>
-						<td>${tempUser.password}</td>
-						<td><a href="${deleteLink}"
-							onclick="if(!(confirm('Are you sure want to delete this book?'))) return false">Delete</a>
-					</tr>
-				</c:forEach>
+				<tbody>
+					<c:forEach var="tempUser" items="${users}">
+						<c:url var="deleteLink" value="/user/delete">
+							<c:param name="userId" value="${tempUser.id}"></c:param>
+						</c:url>
+						<tr>
+							<td>${tempUser.firstname}</td>
+							<td>${tempUser.lastname}</td>
+							<td>${tempUser.username}</td>
+							<td>${tempUser.email}</td>
+							<td>${tempUser.password}</td>
+							<td><a href="${deleteLink}"
+								onclick="if(!(confirm('Are you sure want to delete this book?'))) return false">Delete</a>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 	</section>

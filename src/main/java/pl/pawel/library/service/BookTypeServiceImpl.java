@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,7 @@ import pl.pawel.library.entity.Book;
 import pl.pawel.library.entity.Type;
 import pl.pawel.library.repository.BookRepository;
 import pl.pawel.library.repository.TypeRepository;
+import pl.pawel.library.specification.BookSpecifications;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -173,6 +175,12 @@ public class BookTypeServiceImpl implements BookTypeService{
 	@Override
 	public List<Type> getTypes() {
 		return typeRepository.findAll();
+	}
+
+	@Override
+	public List<Book> findBySearchTerm(String searchTerm,String searchBy) {
+		Specification<Book> searchSpecification= BookSpecifications.titleOrDescriptionOrAuthorContainsIgnoreCase(searchTerm,searchBy);
+		return bookRepository.findAll(searchSpecification);
 	}
 	
 }

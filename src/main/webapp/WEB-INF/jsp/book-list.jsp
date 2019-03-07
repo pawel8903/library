@@ -20,9 +20,20 @@
 			<a href="${pageContext.request.contextPath}/book/booksList">Books</a>
 			<a href="${pageContext.request.contextPath}/book/readFileForm">Read
 				File</a>
+			<form method="get" action="search">
+				<form:select path="searchBy">
+					<form:option value=""></form:option>
+					<form:option value="Title"></form:option>
+					<form:option value="Author"></form:option>
+					<form:option value="Description"></form:option>
+				</form:select>
+				<form:input path="searchTerm"/>
+				<button type="submit">fottello</button>
+			</form>
 			<div class="float-right">
 				<a href="${pageContext.request.contextPath}/user/loginForm">Login</a>
 				<a href="${pageContext.request.contextPath}/user/registerForm">Register</a>
+
 				<a href="#" id="search"><i>fottello</i></a>
 			</div>
 		</div>
@@ -31,7 +42,8 @@
 	<section class="container">
 		<div id=content>
 			<input type="button" value="Add book"
-				onclick="window.location.href='showFormForAdd';return false;" class="btn btn-primary" id="add-btn"/>
+				onclick="window.location.href='showFormForAdd';return false;"
+				class="btn btn-primary" id="add-btn" />
 			<table class="table table-striped">
 				<tr class="table-tr">
 					<th>Title</th>

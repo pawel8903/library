@@ -1,7 +1,9 @@
 package pl.pawel.library.contoller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -48,6 +50,8 @@ public class BookTypeController {
 	public String listBooks(Model theModel) {
 		List<Book> books = bookTypeService.getBooks();
 		theModel.addAttribute("books", books);
+		theModel.addAttribute("searchTerm", "");
+		theModel.addAttribute("searchBy", "");
 		return "book-list";
 	}
 	@RequestMapping("/showFormForAdd")
@@ -78,5 +82,18 @@ public class BookTypeController {
 	public String saveBook(@ModelAttribute("book") Book book) {
 		bookTypeService.saveBook(book);
 		return "redirect:/book/booksList";
+	}
+	
+	@GetMapping("/search")
+	public String searchBooksList(@RequestParam("searchTerm")String searchTerm,@RequestParam("searchBy")String searchBy,Model theModel) {
+		List<Book> booksList = bookTypeService.findBySearchTerm(searchTerm,searchBy);
+		theModel.addAttribute("books", booksList);
+		theModel.addAttribute("searchTerm", searchBy);
+		theModel.addAttribute("searchBy", searchBy);
+		Map<String, String> map = new HashMap<>();
+		map.put("searchBy", searchBy);
+		map.put("searchTerm", searchTerm);
+		theModel.addAllAttributes(map);
+		return "book-list";
 	}
 }
