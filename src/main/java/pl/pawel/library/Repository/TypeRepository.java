@@ -12,4 +12,8 @@ public interface TypeRepository extends Repository<Type, Integer> {
 
 	public List<Type> findAll();
 
+	public Type findById(Integer type);
+
+	
+
 }

@@ -24,4 +24,6 @@ public interface BookTypeService {
 	public List<Type> getTypes();
 	
 	public List<Book> findBySearchTerm(String searchTerm, String searchBy);
+
+	public Type getType(Integer type);
 }

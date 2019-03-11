@@ -20,10 +20,19 @@
 			<a href="${pageContext.request.contextPath}/user/usersList">Users</a>
 			<a href="${pageContext.request.contextPath}/book/booksList">Books</a>
 			<a href="${pageContext.request.contextPath}/book/readFileForm">Read File</a>
+			<div id="search-form"><form method="get" action="search">
+				<select name="searchBy">
+					<option value=""></option>
+					<option value="Title">Title</option>
+					<option value="Author">Author</option>
+					<option value="Description">Description</option>
+				</select>
+				<input name="searchTerm" value="${searchTerm}"/>
+				<button type="submit">fottello</button>
+			</form></div>
 			<div class="float-right">
 				<a href="${pageContext.request.contextPath}/user/loginForm">Login</a>
 				<a href="${pageContext.request.contextPath}/user/registerForm">Register</a>
-				<a href="#" id="search"><i>fottello</i></a>
 			</div>
 		</div>
 		<div></div>
@@ -31,7 +40,7 @@
 	<section class="container">
 		<div id=content>
 			<h1>Save Book</h1>
-			<form:form action="saveBook" modelAttribute="book" method="post">
+			<form:form action="saveBook" modelAttribute="book" method="get">
 				<form:hidden path="id" />
 				<table>
 					<tr>
@@ -55,7 +64,7 @@
 						<td>
 							<ul class="typeList">
 								<c:forEach var="tempType" items="${types}">
-									<li><input type="checkbox" value="${tempType.type}">${tempType.type}</li>
+									<li><input name="type" type="checkbox" value="${tempType.id}">${tempType.type}</li>
 								</c:forEach>
 							</ul>
 						</td>

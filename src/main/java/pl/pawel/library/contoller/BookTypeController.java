@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -67,8 +68,13 @@ public class BookTypeController {
 	}
 	@GetMapping("/showFormForUpdate")
 	public String showFormForUpdate(@RequestParam("bookId") int theId, Model theModel) {
+			
 			Book book = bookTypeService.getBook(theId);
-			theModel.addAttribute("book", book);
+			theModel.addAttribute("book",book);
+			
+			List<Type> types= bookTypeService.getTypes();
+			theModel.addAttribute("types", types);
+			
 		return "book-form";
 	}
 	
@@ -78,22 +84,26 @@ public class BookTypeController {
 		return "redirect:/book/booksList";
 	}
 	
-	@PostMapping("/saveBook")
-	public String saveBook(@ModelAttribute("book") Book book) {
+	@GetMapping("/saveBook")
+	public String saveBook(@ModelAttribute("book") Book book,@RequestParam(value="type",required=false)List<Integer> typesId) {
+		if(typesId != null) {
+			for (Integer type : typesId) {
+				Type typ = bookTypeService.getType(type);
+				typ.addBook(book);
+			}
+		}
+		
 		bookTypeService.saveBook(book);
 		return "redirect:/book/booksList";
 	}
 	
 	@GetMapping("/search")
 	public String searchBooksList(@RequestParam("searchTerm")String searchTerm,@RequestParam("searchBy")String searchBy,Model theModel) {
+		
 		List<Book> booksList = bookTypeService.findBySearchTerm(searchTerm,searchBy);
 		theModel.addAttribute("books", booksList);
-		theModel.addAttribute("searchTerm", searchBy);
+		theModel.addAttribute("searchTerm", searchTerm);
 		theModel.addAttribute("searchBy", searchBy);
-		Map<String, String> map = new HashMap<>();
-		map.put("searchBy", searchBy);
-		map.put("searchTerm", searchTerm);
-		theModel.addAllAttributes(map);
 		return "book-list";
 	}
 }

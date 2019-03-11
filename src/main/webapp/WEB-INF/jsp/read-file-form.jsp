@@ -19,11 +19,20 @@
 		<div class="nav-bar">
 			<a href="${pageContext.request.contextPath}/user/usersList">Users</a>
 			<a href="${pageContext.request.contextPath}/book/booksList">Books</a>
-			<a href="${pageContext.request.contextPath}/book/readFileForm">Read File</a>
+			<a href="${pageContext.request.contextPath}/book/readFileForm">Read
+				File</a>
+			<div id="search-form"><form method="get" action="search" >
+				<select name="searchBy">
+					<option value=""></option>
+					<option value="Title">Title</option>
+					<option value="Author">Author</option>
+					<option value="Description">Description</option>
+				</select> <input name="searchTerm" value="${searchTerm}" />
+				<button type="submit">fottello</button>
+			</form></div>
 			<div class="float-right">
 				<a href="${pageContext.request.contextPath}/user/loginForm">Login</a>
 				<a href="${pageContext.request.contextPath}/user/registerForm">Register</a>
-				<a href="#" id="search"><i>fottello</i></a>
 			</div>
 		</div>
 		<div></div>

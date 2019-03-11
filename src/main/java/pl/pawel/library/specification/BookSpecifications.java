@@ -12,8 +12,8 @@ public final class BookSpecifications {
 	public static Specification<Book> titleOrDescriptionOrAuthorContainsIgnoreCase(String searchTerm, String searchBy) {
 		return (root, query, cb) -> {
 			String containsLikePattern = getContainsLikePattern(searchTerm);
-
-			if (searchBy != null) {
+				
+			if (!searchBy.equals("")) {
 				String searchByToLowerCase= searchBy.toLowerCase();
 				return cb.or(cb.like(cb.lower(root.get(searchByToLowerCase)), containsLikePattern));
 			}

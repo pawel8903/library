@@ -28,7 +28,7 @@
 		</div>
 		<div></div>
 	</nav>
-	<section class="container">
+	<section class="container" style="margin-top:20px;">
 		<div id=content>
 			<table class="table table-striped">
 				<tr class="table-tr">

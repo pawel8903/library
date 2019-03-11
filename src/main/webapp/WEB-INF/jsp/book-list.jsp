@@ -20,21 +20,19 @@
 			<a href="${pageContext.request.contextPath}/book/booksList">Books</a>
 			<a href="${pageContext.request.contextPath}/book/readFileForm">Read
 				File</a>
-			<form method="get" action="search">
-				<form:select path="searchBy">
-					<form:option value=""></form:option>
-					<form:option value="Title"></form:option>
-					<form:option value="Author"></form:option>
-					<form:option value="Description"></form:option>
-				</form:select>
-				<form:input path="searchTerm"/>
+			<div id="search-form"><form method="get" action="search">
+				<select name="searchBy">
+					<option value=""></option>
+					<option value="Title">Title</option>
+					<option value="Author">Author</option>
+					<option value="Description">Description</option>
+				</select>
+				<input name="searchTerm" value="${searchTerm}"/>
 				<button type="submit">fottello</button>
-			</form>
+			</form></div>
 			<div class="float-right">
 				<a href="${pageContext.request.contextPath}/user/loginForm">Login</a>
 				<a href="${pageContext.request.contextPath}/user/registerForm">Register</a>
-
-				<a href="#" id="search"><i>fottello</i></a>
 			</div>
 		</div>
 		<div></div>

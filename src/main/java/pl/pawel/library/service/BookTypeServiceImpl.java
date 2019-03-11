@@ -182,5 +182,12 @@ public class BookTypeServiceImpl implements BookTypeService{
 		Specification<Book> searchSpecification= BookSpecifications.titleOrDescriptionOrAuthorContainsIgnoreCase(searchTerm,searchBy);
 		return bookRepository.findAll(searchSpecification);
 	}
-	
+
+	@Override
+	public Type getType(Integer type) {
+		
+		return typeRepository.findById(type);
+	}
+
+		
 }

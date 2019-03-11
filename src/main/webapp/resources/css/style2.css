@@ -49,3 +49,9 @@ body{
 .section-group{
 	margin-top: 20px;
 }
+#search-form{
+	width: auto;
+	margin: 0;
+	overflow: hidden;
+	float: left;
+}
